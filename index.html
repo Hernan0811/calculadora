@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora</title>
+    
+    <!-- Configuraciones para Móvil / PWA -->
+    <meta name="theme-color" content="#1a0f1f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="manifest.json">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="mobile-app">
+
+    <!-- Interfaz de Calculadora -->
+    <div id="calculator-screen">
+        <div class="calc-display">
+            <div id="calc-history"></div>
+            <div id="calc-output">0</div>
+        </div>
+        <div class="calc-buttons">
+            <button onclick="clearCalc()" class="btn-alt">AC</button>
+            <button onclick="appendCalc('/')" class="btn-op">/</button>
+            <button onclick="appendCalc('*')" class="btn-op">×</button>
+            <button onclick="deleteLast()" class="btn-alt">DEL</button>
+            
+            <button onclick="appendCalc('7')">7</button>
+            <button onclick="appendCalc('8')">8</button>
+            <button onclick="appendCalc('9')">9</button>
+            <button onclick="appendCalc('-')" class="btn-op">-</button>
+            
+            <button onclick="appendCalc('4')">4</button>
+            <button onclick="appendCalc('5')">5</button>
+            <button onclick="appendCalc('6')">6</button>
+            <button onclick="appendCalc('+')" class="btn-op">+</button>
+            
+            <button onclick="appendCalc('1')">1</button>
+            <button onclick="appendCalc('2')">2</button>
+            <button onclick="appendCalc('3')">3</button>
+            <button id="equal-btn" onclick="calculate()" class="btn-equal">=</button>
+            
+            <button onclick="appendCalc('0')" class="btn-zero">0</button>
+            <button onclick="appendCalc('.')">.</button>
+        </div>
+    </div>
+
+    <!-- Página Oculta de Jessica Lorena -->
+    <div id="secret-page" class="hidden">
+        <!-- Lienzo para el efecto de polvo de estrellas -->
+        <canvas id="particle-canvas"></canvas>
+
+        <!-- Botón de Pánico -->
+        <button id="panic-button" onclick="hideSecret()" title="Cerrar rápido">
+            <span>Esc</span>
+        </button>
+
+        <!-- Verificación de Edad -->
+        <div id="age-gate" class="modal">
+            <div class="modal-content">
+                <h2>Contenido Adulto</h2>
+                <p>Debes ser mayor de 18 años para ver este perfil. ¿Confirmas tu edad?</p>
+                <button onclick="confirmAge()" class="submit-button">Soy Mayor de Edad</button>
+            </div>
+        </div>
+
+        <header class="secret-header">
+            <h1 class="neon-text">
+                Jessica Lorena <span class="heart-icon">❤️</span>
+                <span class="status-badge">
+                    <span class="status-dot"></span>
+                    Disponible ahora
+                </span>
+            </h1>
+            <div class="visitor-counter">
+                <span class="emoji">👁️</span> <span id="visit-count">0</span> Clientes VIP han visto este perfil hoy
+            </div>
+            <p class="tagline">Exclusividad, Pasión y Discreción en Bogotá</p>
+        </header>
+
+        <section class="services-container">
+            <h2 class="section-title">Elige tu Experiencia</h2>
+            <div class="plans-grid">
+                <div class="plan-card" onclick="openServiceDetails('express')">
+                    <div class="plan-badge">Popular</div>
+                    <h3>Cita Fugaz <span class="emoji">⏱️</span></h3>
+                    <span class="price">$250.000 COP</span>
+                    <p class="plan-duration">1 Hora de intensidad</p>
+                    <button class="select-plan-btn">Ver Detalle</button>
+                </div>
+                <div class="plan-card featured" onclick="openServiceDetails('premium')">
+                    <div class="plan-badge">Recomendado</div>
+                    <h3>Deseo Extendido <span class="emoji">💎</span></h3>
+                    <span class="price">$600.000 COP</span>
+                    <p class="plan-duration">3 Horas de conexión</p>
+                    <button class="select-plan-btn">Ver Detalle</button>
+                </div>
+                <div class="plan-card" onclick="openServiceDetails('vip')">
+                    <h3>Idilio Nocturno <span class="emoji">🌙</span></h3>
+                    <span class="price">$1.500.000 COP</span>
+                    <p class="plan-duration">Toda la noche (8h)</p>
+                    <button class="select-plan-btn">Ver Detalle</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="skills-container">
+            <h2>Mis Habilidades y Talentos <span class="emoji">✨</span></h2>
+            <div class="skills-grid">
+                <div class="skill-item">
+                    <h3>Arte de la Seducción</h3>
+                    <p>Una mirada, una palabra, un toque... el arte de cautivar tus sentidos.</p>
+                </div>
+                <div class="skill-item">
+                    <h3>Conversación Estimulante</h3>
+                    <p>Desde temas profundos hasta el humor más ligero, siempre encontrarás una mente brillante.</p>
+                </div>
+                <div class="skill-item">
+                    <h3>Masajes Sensuales</h3>
+                    <p>Manos expertas que te llevarán a un estado de relajación y placer absoluto.</p>
+                </div>
+                <div class="skill-item">
+                    <h3>Discreción Garantizada</h3>
+                    <p>Tu privacidad es mi prioridad. Absoluta confidencialidad en cada encuentro.</p>
+                </div>
+                <div class="skill-item">
+                    <h3>Adaptabilidad a tus Deseos</h3>
+                    <p>Cada experiencia es única y se moldea a tus preferencias y fantasías.</p>
+                </div>
+                <div class="skill-item">
+                    <h3>Juegos de Rol y Fantasías</h3>
+                    <p>Explora tus deseos más ocultos en un ambiente seguro y emocionante.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="gallery-container">
+            <h2>Galería de Momentos</h2>
+            <div class="carousel-wrapper">
+                <div class="carousel-track" id="photo-carousel-track">
+                    <div class="photo-item" data-description="Elegancia y distinción en cada detalle." style="background-image: url('https://via.placeholder.com/300/FFC0CB/000000?text=Momento+1');"></div>
+                    <div class="photo-item" data-description="Momentos de relax y desconexión total." style="background-image: url('https://via.placeholder.com/300/FF69B4/FFFFFF?text=Momento+2');"></div>
+                    <div class="photo-item" data-description="Conversaciones que cautivan los sentidos." style="background-image: url('https://via.placeholder.com/300/FF1493/FFFFFF?text=Momento+3');"></div>
+                    <div class="photo-item" data-description="La magia de una noche inolvidable en Bogotá." style="background-image: url('https://via.placeholder.com/300/DB7093/FFFFFF?text=Momento+4');"></div>
+                    <div class="photo-item" data-description="Detalles exclusivos para caballeros exigentes." style="background-image: url('https://via.placeholder.com/300/C71585/FFFFFF?text=Momento+5');"></div>
+                    <div class="photo-item" data-description="Sensualidad y carisma en su máxima expresión." style="background-image: url('https://via.placeholder.com/300/FF00FF/FFFFFF?text=Momento+6');"></div>
+                </div>
+            </div>
+            <p class="gallery-note">Cada imagen es un reflejo de la experiencia que te espera.</p>
+        </section>
+
+        <section class="live-chat-container">
+            <h2>
+                <svg class="chat-icon" viewBox="0 0 24 24" fill="#ff0055" style="width: 24px; height: 24px;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+                Chat en Vivo 
+                <span class="live-badge">EN VIVO</span>
+            </h2>
+            <div class="chat-messages" id="live-chat-messages">
+                <!-- Mensajes se añadirán aquí dinámicamente -->
+            </div>
+        </section>
+
+        <section class="testimonials-container">
+            <h2>Testimonios de Clientes VIP <span class="emoji">⭐</span></h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Una experiencia de otro nivel. Jessica es la personificación de la elegancia y la discreción. Altamente recomendada para quienes buscan calidad real."</p>
+                    <span class="client-name">- Ejecutivo de Finanzas</span>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"Su conversación es tan cautivadora como su presencia. Un encuentro que superó todas mis expectativas en la ciudad."</p>
+                    <span class="client-name">- Viajero Frecuente</span>
+                </div>
+                <div class="testimonial-card">
+                    <div class="stars">★★★★★</div>
+                    <p>"La atención al detalle y su calidez hacen que cada minuto valga la pena. Sin duda, la mejor compañía de Bogotá."</p>
+                    <span class="client-name">- Cliente Anónimo</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="location-container">
+            <h2>Ubicación y Discreción <span class="emoji">📍</span></h2>
+            <p>Servicios disponibles en las zonas más exclusivas y seguras de Bogotá. La ubicación exacta se coordina para garantizar tu comodidad y privacidad.</p>
+            <div class="map-embed">
+                <!-- Mapa de Google Maps centrado en Bogotá. Puedes ajustar las coordenadas y el zoom. -->
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3976.921356070087!2d-74.0863921852375!3d4.60971009663737!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e3f99a1f2b3b3b3%3A0x1a2b3c4d5e6f7a8b!2sBogot%C3%A1%2C%20Colombia!5e0!3m2!1ses!2sco!4v1678901234567!5m2!1ses!2sco" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </section>
+
+        <footer class="secret-footer">
+            <p>✨ Diseño optimizado para una experiencia perfecta en tu móvil ✨</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Registrar el Service Worker para permitir la instalación en el celular
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js').then(reg => {
+                    console.log('App lista para usar en el móvil');
+                }).catch(err => console.log('Error de registro', err));
+            });
+        }
+    </script>
+
+    <!-- Botón Flotante de WhatsApp -->
+    <a href="https://wa.me/573001234567" target="_blank" class="whatsapp-fab hidden" id="whatsapp-btn" title="Contactar por WhatsApp">
+        <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round" class="whatsapp-icon">
+            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+        </svg>
+        <span>WhatsApp</span>
+    </a>
+
+    <!-- Notificación de Reserva Discreta -->
+    <div id="notification-toast" class="notification-toast hidden">
+        <span class="emoji">🔔</span>
+        <p>Un cliente acaba de reservar el <strong>Combo Premium</strong></p>
+    </div>
+
+    <!-- Modal para ampliar fotos -->
+    <div id="image-modal" class="modal hidden">
+        <span class="close-modal">&times;</span>
+        <img class="modal-zoom-content" id="modal-img">
+        <p id="modal-caption" class="modal-caption"></p>
+    </div>
+
+    <!-- Modal de Detalles del Servicio -->
+    <div id="service-modal" class="modal hidden">
+        <div class="modal-content service-detail-card">
+            <span class="close-modal" onclick="closeServiceModal()">&times;</span>
+            <h2 id="detail-title" class="neon-text-small">Nombre del Plan</h2>
+            <div class="experience-menu">
+                <h3>Lo que viviremos juntos:</h3>
+                <ul id="experience-list">
+                    <!-- Se llena con JS -->
+                </ul>
+            </div>
+            <button class="pay-now-btn" onclick="openPaymentModal()">Reservar y Pagar</button>
+        </div>
+    </div>
+
+    <!-- Modal de Pago -->
+    <div id="payment-modal" class="modal hidden">
+        <div class="modal-content payment-card">
+            <span class="close-modal" onclick="closePaymentModal()">&times;</span>
+            <h2>Método de Pago Seguro</h2>
+            <p>Selecciona tu medio preferido para confirmar la reserva:</p>
+            <div class="payment-methods">
+                <div class="pay-option" onclick="processSimulatedPayment('Nequi')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/Nequi_Logo.png/640px-Nequi_Logo.png" alt="Nequi">
+                    <span>Nequi / Daviplata</span>
+                </div>
+                <div class="pay-option" onclick="processSimulatedPayment('Visa/Mastercard')">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/2560px-Visa_Inc._logo.svg.png" alt="Visa">
+                    <span>Tarjeta Crédito/Débito</span>
+                </div>
+                <div class="pay-option" onclick="processSimulatedPayment('Cripto')">
+                    <span>₿ Bitcoin / USDT</span>
+                </div>
+            </div>
+            <p class="discretion-note">🔒 El cobro aparecerá como "Servicios Digitales" para tu total discreción.</p>
+        </div>
+    </div>
+
+</body>
+</html>
